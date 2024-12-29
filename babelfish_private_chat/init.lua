@@ -6,7 +6,7 @@
 
 local S = core.get_translator("babelfish_private_chat")
 
-core.register_chatcommand("bbmsg", {
+core.register_chatcommand("bmsg", {
     params = core.translate("__builtin", "<name> <message>"),
     description = S("Send a direct message to a player in their preferred langauge"),
     privs = { shout = true },

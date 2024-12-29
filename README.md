@@ -38,4 +38,4 @@ Avaliable in `babelfish_chat_history` mod:
 
 Avaliable in `babelfish_private_chat`
 
-* User `/bbmsg <username> <message>` to send private messages to a player in their preferred language.
+* User `/bmsg <username> <message>` to send private messages to a player in their preferred language.
