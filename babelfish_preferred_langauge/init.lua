@@ -70,7 +70,7 @@ core.register_on_joinplayer(function(player)
 end)
 
 core.register_chatcommand("bblang", {
-    description = S("Get or set preferred language"),
+    description = S("Get or set your preferred language"),
     params = S("[<language code>]"),
     func = function(name, param)
         if param == "" then
@@ -90,9 +90,22 @@ core.register_chatcommand("bblang", {
     end,
 })
 
+core.register_chatcommand("bbget", {
+    description = S("Get a player's preferred language"),
+    params = S("[<player name>]"),
+    func = function(name, param)
+        if param == "" then
+            param = name
+        end
+
+        local lang = babelfish.get_player_preferred_language(param)
+        return true, S("Preferred language of @1: @2",
+            param, lang and (babelfish.get_language_name(lang) .. " (" .. lang .. ")") or S("Unknown"))
+})
+
 core.register_chatcommand("bbset", {
-    description = S("Get or set a player's language code"),
-    params = S("<player name> [<language code>]"),
+    description = S("Set a player's preferred language"),
+    params = S("<player name> <language code>"),
     privs = { ban = true },
     func = function(_, param)
         local args = string.split(param, " ")
@@ -101,9 +114,7 @@ core.register_chatcommand("bbset", {
         local target, lang = args[1], args[2]
 
         if not lang then
-            lang = babelfish.get_player_preferred_language(target)
-            return true, S("Preferred language of @1: @2",
-                target, (babelfish.get_language_name(lang) .. " (" .. lang .. ")") or S("Unknown"))
+            return false
         end
 
         lang = babelfish.validate_language(lang)

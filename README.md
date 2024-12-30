@@ -32,7 +32,9 @@ Avaliable in `babelfish_preferred_langauge` mod:
 * Your preferred language is guessed when you first join the server.
     * Fallbacks to English if your language is not supported.
 * Use `/bblang <language code>` to set your preferred language.
-* Use `/bblang` to check your preferred language.
+* Use `/bbget` to check your preferred language.
+* Use `/bbget <player name>` to check other's preferred language
+* (Moderators only) Use `/bbset <player name> <language code>` to set other's preferred language
 
 Avaliable in `babelfish_chat_history` mod:
 
