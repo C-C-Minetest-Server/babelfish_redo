@@ -139,3 +139,8 @@ core.register_chatcommand("bbmigrate", {
         return true, S("Successfully imported old savefile.")
     end,
 })
+
+if core.global_exists("random_messages_api") then
+    random_messages_api.register_message(
+        S("Use /bblang <language code> to set your preferred language."))
+end

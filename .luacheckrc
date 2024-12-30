@@ -62,6 +62,7 @@ files["babelfish_chat"] = {
     read_globals = {
         "babelfish",
         "beerchat",
+        "random_messages_api",
     }
 }
 
@@ -69,6 +70,7 @@ files["babelfish_chat_history"] = {
     read_globals = {
         "babelfish",
         "beerchat",
+        "random_messages_api",
     }
 }
 
@@ -76,10 +78,14 @@ files["babelfish_preferred_langauge"] = {
     globals = {
         "babelfish",
     }
+    read_globals = {
+        "random_messages_api",
+    }
 }
 
 files["babelfish_private_chat"] = {
     read_globals = {
         "babelfish",
+        "random_messages_api",
     }
 }

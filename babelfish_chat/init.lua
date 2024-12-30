@@ -137,3 +137,8 @@ else
         end,
     })
 end
+
+if core.global_exists("random_messages_api") then
+    random_messages_api.register_message(
+        S("Add %<language code> in your chat message to translate it into another language."))
+end

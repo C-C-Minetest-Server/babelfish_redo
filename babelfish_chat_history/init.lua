@@ -103,3 +103,8 @@ core.register_chatcommand("babel", {
         return true
     end,
 })
+
+if core.global_exists("random_messages_api") then
+    random_messages_api.register_message(
+        S("Use /babel <player name> to translate a player's last message into your preferred language."))
+end

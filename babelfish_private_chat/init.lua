@@ -36,3 +36,8 @@ core.register_chatcommand("bmsg", {
         return true, core.translate("__builtin", "Message sent.")
     end,
 })
+
+if core.global_exists("random_messages_api") then
+    random_messages_api.register_message(
+        S("Use /bmsg <name> <message> to sent private message to a player in their preferred language."))
+end

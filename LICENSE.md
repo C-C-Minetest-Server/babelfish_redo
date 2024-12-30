@@ -4,7 +4,7 @@
 
         BabelFish Redo: Translate chat messages into other languages
         Copyright (C) 2016  Tai "DuCake" Kedzierski
-        Copyright (C) 2024  1F616EMO
+        Copyright (C) 2024  1F616EMO  <root at 1f616emo.xyz>
 
         This program is free software: you can redistribute it and/or modify
         it under the terms of the GNU Affero General Public License as published by
