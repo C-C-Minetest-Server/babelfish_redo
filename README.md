@@ -4,7 +4,7 @@ This mod allows Luanti players to communicate across language barriers.
 
 ## ... but why not the original BabalFish mod?
 
-BabelFish was a great mod for breaking langauge barrier between players speaking different languages. However, it was unmaintained for 7 years, and many code became messy and inefficient. This rewrite is a drop-in replacement for most end users, and provides more method for developers to interact with BabelFish. Notable changes include:
+[BabelFish](https://github.com/taikedz-mt/babelfish) was (and if you aren't a developer, still is) a great mod for breaking langauge barrier between players speaking different languages. However, it was unmaintained for 7 years, and many code became messy and inefficient. This rewrite is a drop-in replacement for most end users, and provides more method for developers to interact with BabelFish. Notable changes include:
 
 * Guessing preferred language from the player's client language code
 * Allow specifying source language in translations
