@@ -1,0 +1,7 @@
+# textdomain: babelfish_core
+
+##[ init.lua ]##
+Translations are powered by @1=
+Detect automatically=
+List avaliable language codes=
+(Alias: @1)=

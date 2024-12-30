@@ -1,0 +1,7 @@
+# textdomain: babelfish_engine_lingva
+
+##[ init.lua ]##
+Engine error while initializing.=
+Engine not yet initialized.=
+Error getting translation=
+Translations are powered by Lingva=

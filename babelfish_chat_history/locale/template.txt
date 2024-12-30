@@ -1,0 +1,14 @@
+# textdomain: babelfist_chat_history
+
+##[ init.lua ]##
+<player name> [<channel name>]=
+<player name>=
+Translate last message sent by a player=
+You must be online to run this command.=
+Error while obtaining default language.=
+Failed to get channel.=
+You are not allowed to read messages from channel #@1!=
+@1 haven't sent anythign on @2.=
+the main channel=
+Failed to get translation: @1=
+Use /babel <player name> to translate a player's last message into your preferred language.=

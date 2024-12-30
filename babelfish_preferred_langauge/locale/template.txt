@@ -1,0 +1,19 @@
+# textdomain: babelfish_preferred_language
+
+##[ init.lua ]##
+Get or set your preferred language=
+[<language code>]=
+Preferred language: @1=
+Unknown=
+Invalid language code: @1=
+Preferred language set to @1.=
+Get a player's preferred language=
+[<player name>]=
+Preferred language of @1: @2=
+Set a player's preferred language=
+<player name> <language code>=
+Preferred language of @1 set to @2.=
+Import preferred language data from old BabelFish=
+Error while opening old savefile: @1=
+Successfully imported old savefile.=
+Use /bblang <language code> to set your preferred language.=
