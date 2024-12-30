@@ -2,7 +2,7 @@
 -- Google Translate via the Lingva frontend
 -- Copyright (C) 2016  Tai "DuCake" Kedzierski
 -- Copyright (C) 2024  1F616EMO
--- SPDX-License-Identifier: AGPL-3.0-or-later
+-- SPDX-License-Identifier: LGPL-3.0-or-later
 
 local http = assert(core.request_http_api(),
     "Could not get HTTP API table. Add babelfish_engine_lingva to secure.http_mods")

@@ -2,7 +2,7 @@
 -- Translate messages in chat history
 -- Copyright (C) 2016  Tai "DuCake" Kedzierski
 -- Copyright (C) 2024  1F616EMO
--- SPDX-License-Identifier: AGPL-3.0-or-later
+-- SPDX-License-Identifier: LGPL-3.0-or-later
 
 local S = core.get_translator("babelfish_chat_history")
 

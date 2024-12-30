@@ -1,2 +1,0 @@
-# URL to source code for AGPL compliance
-babelfish_core.source_url (BabelFish Redo source code URL) string https://github.com/C-C-Minetest-Server/babelfish_redo
