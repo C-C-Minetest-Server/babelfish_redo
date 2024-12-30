@@ -175,18 +175,8 @@ core.register_chatcommand("bbcodes", {
     end
 })
 
-local source_url = core.settings:get("babelfish_core.source_url")
-if not source_url then
-    -- To fork maintainers: you may change this to your project URL if you intend to seperate from upstream
-    -- Don't forget to sync with settingtypes.txt
-    source_url = "https://github.com/C-C-Minetest-Server/babelfish_redo"
-end
-
 core.register_on_joinplayer(function(player)
     local name = player:get_player_name()
 
     core.chat_send_player(name, babelfish_engine.compliance)
-    core.chat_send_player(name,
-        S("BabelFish Redo is free software licensed under AGPLv3; you may obtain its source code at: @1",
-            source_url))
 end)
