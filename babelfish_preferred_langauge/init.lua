@@ -75,7 +75,8 @@ core.register_chatcommand("bblang", {
     func = function(name, param)
         if param == "" then
             local lang = babelfish.get_player_preferred_language(name)
-            return true, S("Preferred language: @1", lang and babelfish.get_language_name(lang) or S("Unknown"))
+            return true, S("Preferred language: @1",
+                lang and (babelfish.get_language_name(lang) .. " (" .. lang .. ")") or S("Unknown"))
         end
 
         local lang = babelfish.validate_language(param)
@@ -84,7 +85,8 @@ core.register_chatcommand("bblang", {
         end
 
         babelfish.set_player_preferred_language(name, lang)
-        return true, S("Preferred language set to @1.", babelfish.get_language_name(lang))
+        return true, S("Preferred language set to @1.",
+            babelfish.get_language_name(lang) .. " (" .. lang .. ")")
     end,
 })
 
@@ -101,7 +103,7 @@ core.register_chatcommand("bbset", {
         if not lang then
             lang = babelfish.get_player_preferred_language(target)
             return true, S("Preferred language of @1: @2",
-                target, lang and babelfish.get_language_name(lang) or S("Unknown"))
+                target, (babelfish.get_language_name(lang) .. " (" .. lang .. ")") or S("Unknown"))
         end
 
         lang = babelfish.validate_language(lang)
@@ -110,7 +112,8 @@ core.register_chatcommand("bbset", {
         end
 
         babelfish.set_player_preferred_language(target, lang)
-        return true, S("Preferred language of @1 set to @2.", target, babelfish.get_language_name(lang))
+        return true, S("Preferred language of @1 set to @2.",
+            target, babelfish.get_language_name(lang) .. " (" .. lang .. ")")
     end,
 })
 
