@@ -1,0 +1,2 @@
+# GraphQL endpoint of a Lingva instance.
+babelfish_engine_lingva.serviceurl (Lingva GraphQL endpoint) string https://lingva.ml/api/graphql

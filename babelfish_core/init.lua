@@ -13,13 +13,10 @@ local registered_on_engine_ready = {}
 ---Run function when the engine is ready, or if it is already ready, run it now.
 ---@param func fun()
 function babelfish.register_on_engine_ready(func)
-    if not registered_on_engine_ready then
-        return func()
-    end
     registered_on_engine_ready[#registered_on_engine_ready+1] = func
 end
 
----@alias BabelFishCallback fun(succeed: boolean, string_or_err: string)
+---@alias BabelFishCallback fun(succeed: boolean, string_or_err: string, detected_lang: string?)
 
 ---@class (exact) BabelFishEngine
 ---@field translate fun(source: string, target: string, query: string, callback: BabelFishCallback)
@@ -79,6 +76,7 @@ function babelfish.register_engine(engine_def)
     for _, func in ipairs(registered_on_engine_ready) do
         func()
     end
+    babelfish.register_on_engine_ready = function(func) return func() end
     registered_on_engine_ready = nil
 end
 
@@ -132,16 +130,17 @@ function babelfish.get_language_name(language)
     return babelfish_engine.language_codes[language]
 end
 
----Get language map: MT language code -> engine lanaguage code
----@return { [string]: string }
-function babelfish.get_mt_language_map()
-    return table.copy(babelfish_engine.mt_language_map)
-end
-
 ---Get language codes
 ---@return { [string]: string }
 function babelfish.get_language_codes()
     return table.copy(babelfish_engine.language_codes)
+end
+
+
+---Get language map: MT language code -> engine lanaguage code
+---@return { [string]: string }
+function babelfish.get_mt_language_map()
+    return table.copy(babelfish_engine.mt_language_map)
 end
 
 ---Get engine compliance
@@ -175,3 +174,9 @@ core.register_chatcommand("bbcodes", {
         return true, table.concat(lines, "\n")
     end
 })
+
+core.register_on_joinplayer(function(player)
+    local name = player:get_player_name()
+
+    core.chat_send_player(name, babelfish_engine.compliance)
+end)

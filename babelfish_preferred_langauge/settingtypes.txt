@@ -1,0 +1,2 @@
+# Fallback language for players whose language cannot be detected
+babelfish_preferred_language.fallback_lang (Fallback language) string en

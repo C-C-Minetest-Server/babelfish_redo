@@ -133,10 +133,14 @@ local function translate(source, target, query, callback)
     query = string.gsub(query, "\"", "\\\"")
     graphql_fetch(
         "{translation(source: \"" .. source .. "\", target: \"" .. target ..
-        "\", query: \"" .. query .. "\"){target{text}}}",
+        "\", query: \"" .. query .. "\"){source{detected{code}},target{text}}}",
         function(data)
             if data then
-                return callback(true, data.translation.target.text)
+                return callback(
+                    true,
+                    data.translation.target.text,
+                    data.translation.source.detected and data.translation.source.detected.code or source
+                )
             end
             return callback(false, S("Error getting translation"))
         end)
