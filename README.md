@@ -52,6 +52,7 @@ To start, you must enable the following mods:
 
 * `babelfish_core`
 * Any BabelFish Redo translation engines (e.g. `babelfish_engine_lingva`)
+    * Check their `README.md` for installation instructions. Most backends requires adding them to `secure.http_mods`.
 
 To enable all features the original BabelFish have, enable the following mods:
 
