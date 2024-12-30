@@ -9,7 +9,7 @@ local S = core.get_translator("babelfish_chat")
 local function check_message(message)
     local _, _, targetlangstr = message:find("%%([a-zA-Z-_:]+)")
     if targetlangstr then
-        local targetphrase = message:gsub("%%" .. targetlangstr, '', 1)
+        local targetphrase = message:gsub("%%" .. string.gsub(targetlangstr, '%W', '%%%1'), '', 1)
         local splited = string.split(targetlangstr, ":")
 
         local new_targetlang = babelfish.validate_language(splited[1])
