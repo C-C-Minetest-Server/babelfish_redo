@@ -2,5 +2,7 @@
 
 ##[ init.lua ]##
 Send a direct message to a player in their preferred langauge=
+Failed to get @1's preferred languages.=
+DM to @1: @2=
 Failed to get translation.=
 Use /bmsg <name> <message> to sent private message to a player in their preferred language.=

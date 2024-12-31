@@ -1,8 +1,10 @@
 # textdomain: babelfish_chat
 
 ##[ init.lua ]##
+Invalid language string @1=
 @1 is not a valid language.=
 Could not translate message: @1=
+Could not translate message from @1 to @2: @3=
 Translate a sentence and transmit it to everybody, or to the given channel=
 [#<channel>] <language code>[:<source language>] <sentence>=
 You cannot send to channel #@1!=

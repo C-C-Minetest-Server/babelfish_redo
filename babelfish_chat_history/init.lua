@@ -86,7 +86,7 @@ core.register_chatcommand("babel", {
         end
 
         if not (chat_history[channel] and chat_history[channel][target_player]) then
-            return false, S("@1 haven't sent anythign on @2.",
+            return false, S("@1 haven't sent anything on @2.",
                 target_player, channel == main_channel and S("the main channel") or ("#" .. channel))
         end
 
