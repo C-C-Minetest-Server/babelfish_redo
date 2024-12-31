@@ -101,6 +101,7 @@ core.register_chatcommand("bbget", {
         local lang = babelfish.get_player_preferred_language(param)
         return true, S("Preferred language of @1: @2",
             param, lang and (babelfish.get_language_name(lang) .. " (" .. lang .. ")") or S("Unknown"))
+    end
 })
 
 core.register_chatcommand("bbset", {
