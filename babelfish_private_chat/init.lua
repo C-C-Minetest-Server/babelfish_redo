@@ -6,6 +6,11 @@
 
 local S = core.get_translator("babelfish_private_chat")
 
+local format_base
+babelfish.register_on_engine_ready(function()
+    format_base = "[" .. babelfish.get_engine_label() .. " %s -> %s]: %s"
+end)
+
 core.register_chatcommand("bmsg", {
     params = core.translate("__builtin", "<name> <message>"),
     description = S("Send a direct message to a player in their preferred langauge"),
@@ -18,8 +23,17 @@ core.register_chatcommand("bmsg", {
         if not core.get_player_by_name(sendto) then
             return false, core.translate("__builtin", "The player @1 is not online.", sendto)
         end
-        local target_lang = babelfish.get_player_preferred_language(sendto)
-        babelfish.translate("auto", target_lang, message, function(succeeded, translated)
+        local targetlang = babelfish.get_player_preferred_language(sendto)
+        if not targetlang then
+            return false, S("Failed to get @1's preferred languages.", sendto)
+        end
+
+        core.chat_send_player(sendto, core.translate("__builtin", "DM from @1: @2",
+            name, message .. " %" .. targetlang))
+        core.chat_send_player(name, S("DM to @1: @2",
+            sendto, message .. " %" .. targetlang))
+
+        babelfish.translate("auto", targetlang, message, function(succeeded, translated, sourcelang)
             if not succeeded then
                 if core.get_player_by_name(name) then
                     return core.chat_send_player(name, S("Failed to get translation."))
@@ -27,13 +41,19 @@ core.register_chatcommand("bmsg", {
                 return
             end
 
+            local formatted = string.format(format_base, sourcelang or "?", targetlang, translated)
+
             core.log("action", "DM from " .. name .. " to " .. sendto
                 .. ": " .. translated)
-            core.chat_send_player(sendto, core.translate("__builtin", "DM from @1: @2",
-                name, "[" .. babelfish.get_engine_label() .. "]: " .. translated))
+            if core.get_player_by_name(sendto) then
+                core.chat_send_player(sendto, core.translate("__builtin", "DM from @1: @2", name, formatted))
+                if core.get_player_by_name(name) then
+                    core.chat_send_player(name, S("DM to @1: @2", sendto, formatted))
+                end
+            end
         end)
 
-        return true, core.translate("__builtin", "Message sent.")
+        return true
     end,
 })
 
