@@ -76,7 +76,7 @@ core.register_chatcommand("babel", {
             return false
         end
 
-        local target_player, channel = args[2], args[3] or get_channel(name)
+        local target_player, channel = args[1], args[2] or get_channel(name)
         if not channel then
             return false, S("Failed to get channel.")
         end
