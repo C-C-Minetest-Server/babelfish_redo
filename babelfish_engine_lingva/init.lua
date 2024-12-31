@@ -130,10 +130,10 @@ local function translate(source, target, query, callback)
         return callback(false, S("Engine not yet initialized."))
     end
 
-    query = string.gsub(query, "\"", "\\\"")
+    -- query = string.gsub(query, "\"", "\\\"")
     graphql_fetch(
         "{translation(source: \"" .. source .. "\", target: \"" .. target ..
-        "\", query: \"" .. query .. "\"){source{detected{code}},target{text}}}",
+        "\", query: \"\"\"" .. query .. "\"\"\"){source{detected{code}},target{text}}}",
         function(data)
             if data then
                 return callback(
