@@ -105,6 +105,11 @@ function babelfish.translate(source, target, query, callback)
     assert(babelfish_engine.language_codes[target],
         "Attempt to translate from unsupported language " .. target)
 
+    -- Try to remove any Luanti escape sequences
+    query = core.get_translated_string("en", query)
+    query = core.strip_colors(query)
+    query = string.gsub(query, string.char(0x1b), "")
+    
     return babelfish_engine.translate(source, target, query, callback)
 end
 
