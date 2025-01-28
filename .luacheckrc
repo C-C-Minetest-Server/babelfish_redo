@@ -74,7 +74,7 @@ files["babelfish_chat_history"] = {
     }
 }
 
-files["babelfish_preferred_langauge"] = {
+files["babelfish_preferred_language"] = {
     globals = {
         "babelfish",
     },

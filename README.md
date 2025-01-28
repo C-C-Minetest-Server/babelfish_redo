@@ -9,6 +9,7 @@ This mod allows Luanti players to communicate across language barriers.
 * Guessing preferred language from the player's client language code
 * Allow specifying source language in translations
 * Translate into multiple languages at once
+* Automatically translate into the player's preferred language
 * Handles [Beerchat](https://content.luanti.org/packages/mt-mods/beerchat/) properly
 * Shipped with [Lingva Translate](https://github.com/thedaviddelta/lingva-translate) support (Yandex Translate port will be avaliable soon)
 * Register new translation engine with new mods instead of adding files into the core mod
@@ -28,6 +29,7 @@ Avaliable in `babelfish_chat` mod:
     * Unlike the original BabelFish, you must leave spaces between the tag and other texts.
 * Use `/bb <language code>[:<source language>] <sentence>` to send a message in another language.
     * (Beerchat only) Use `/bb #<channel> (other arguments...)` to send to a channel.
+* (With `babelfish_preferred_langauge`) Use `/bbactive` to toggle active translation.
 
 Avaliable in `babelfish_preferred_langauge` mod:
 
