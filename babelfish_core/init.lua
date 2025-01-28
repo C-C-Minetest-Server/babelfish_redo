@@ -13,7 +13,7 @@ local registered_on_engine_ready = {}
 ---Run function when the engine is ready, or if it is already ready, run it now.
 ---@param func fun()
 function babelfish.register_on_engine_ready(func)
-    registered_on_engine_ready[#registered_on_engine_ready+1] = func
+    registered_on_engine_ready[#registered_on_engine_ready + 1] = func
 end
 
 ---@alias BabelFishCallback fun(succeed: boolean, string_or_err: string, detected_lang: string?)
@@ -109,7 +109,7 @@ function babelfish.translate(source, target, query, callback)
     query = core.get_translated_string("en", query)
     query = core.strip_colors(query)
     query = string.gsub(query, string.char(0x1b), "")
-    
+
     return babelfish_engine.translate(source, target, query, callback)
 end
 
@@ -141,7 +141,6 @@ function babelfish.get_language_codes()
     return table.copy(babelfish_engine.language_codes)
 end
 
-
 ---Get language map: MT language code -> engine lanaguage code
 ---@return { [string]: string }
 function babelfish.get_mt_language_map()
@@ -162,14 +161,14 @@ end
 
 core.register_chatcommand("bbcodes", {
     description = S("List avaliable language codes"),
-    func = function ()
+    func = function()
         local lines = {}
         for code, name in pairs(babelfish_engine.language_codes) do
-            lines[#lines+1] = code .. ": " .. name
+            lines[#lines + 1] = code .. ": " .. name
             local alias = {}
             for src, dst in pairs(babelfish_engine.language_alias) do
                 if dst == code then
-                    alias[#alias+1] = src
+                    alias[#alias + 1] = src
                 end
             end
             if #alias ~= 0 then
