@@ -77,7 +77,7 @@ files["babelfish_chat_history"] = {
 files["babelfish_preferred_langauge"] = {
     globals = {
         "babelfish",
-    }
+    },
     read_globals = {
         "random_messages_api",
     }
