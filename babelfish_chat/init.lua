@@ -77,7 +77,7 @@ local function do_bb(name, param, sendfunc)
 
     local targets, sourcelang = parse_language_string(args[1])
     if not targets then
-        return false, source
+        return false, sourcelang
     end
 
     for _, targetlang in ipairs(targets) do
