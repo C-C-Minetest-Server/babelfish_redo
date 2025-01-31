@@ -54,7 +54,7 @@ else
     end)
     cmd_param = S("<player name>")
     get_channel = function() return main_channel end
-    is_player_subscribed_to_channel = function() return true end
+    is_player_subscribed_to_channel = function(_, channel) return channel == main_channel end
 end
 
 core.register_chatcommand("babel", {
