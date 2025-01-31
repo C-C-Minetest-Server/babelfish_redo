@@ -75,7 +75,8 @@ local function process(name, message, arg1)
         local targets = {}
 
         for _, player in ipairs(core.get_connected_players()) do
-            if player:get_meta():get_int("babelfish:disable_active_translation") == 0 then
+            if player:get_player_name() ~= name
+                and player:get_meta():get_int("babelfish:disable_active_translation") == 0 then
                 local lang = babelfish.get_player_preferred_language(player:get_player_name())
                 if lang and table.indexof(targetlangs, lang) == -1 then
                     targets[lang] = targets[lang] or {}
@@ -92,9 +93,19 @@ local function process(name, message, arg1)
 
                 for _, tname in ipairs(players) do
                     if core.get_player_by_name(tname) then
-                        core.chat_send_player(tname,
-                            core.format_chat_message(name,
-                                string.format(format_base, detected or sourcelang, lang, translated)))
+                        local tmessage = string.format(format_base, detected or sourcelang, lang, translated)
+                        if arg1 then
+                            local data = {
+                                channel = arg1,
+                                name = name,
+                                message = tmessage
+                            }
+                            beerchat.execute_callbacks("before_send", tname, tmessage, data)
+                            tmessage = data.message or tmessage
+                        else
+                            tmessage = core.format_chat_message(name, tmessage)
+                        end
+                        core.chat_send_player(tname, tmessage)
                     end
                 end
             end)
