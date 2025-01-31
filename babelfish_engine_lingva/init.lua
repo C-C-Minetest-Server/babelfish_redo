@@ -130,6 +130,11 @@ local function translate(source, target, query, callback)
         return callback(false, S("Engine not yet initialized."))
     end
 
+    if source == "zh_HANT" then
+        -- Lingva doesn't support specifying Chinese variant, use zh
+        source = "zh"
+    end
+
     -- query = string.gsub(query, "\"", "\\\"")
     graphql_fetch(
         "{translation(source: \"" .. source .. "\", target: \"" .. target ..
