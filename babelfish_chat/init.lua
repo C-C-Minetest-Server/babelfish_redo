@@ -16,11 +16,11 @@ local parse_language_string = babelfish.parse_language_string
 local dosend
 local function process(name, message, channel)
     message = " " .. message .. " "
-    local _, _, language_string = string.find(message, "%s%%([a-zA-Z-_:,]+)%s")
+    local tstart, tend, language_string = string.find(message, "%s%%([a-zA-Z-_:,]+)%s")
     local targetlangs, source = {}, "auto"
     local targetphrase = message
     if language_string then
-        targetphrase = message:gsub("%%" .. string.gsub(language_string, '%W', '%%%1'), '', 1):trim()
+        targetphrase = (string.sub(message, 1, tstart - 1) .. string.sub(message, tend + 1)):trim()
         targetlangs, source = parse_language_string(language_string)
         if not targetlangs then
             return core.chat_send_player(name, source)
