@@ -6,69 +6,37 @@
 
 local S = core.get_translator("babelfish_chat")
 
-local function parse_language_string(language_string)
-    local splitted_langs = string.split(language_string, ":")
-    local targets, source = splitted_langs[1], splitted_langs[2]
-    if not targets then return false, S("Invalid language string @1", language_string) end
-    source = babelfish.validate_language(source)
-    if not source then
-        return false, S("@1 is not a valid language.", splitted_langs[2])
-    end
-
-    local splitted_targets = string.split(targets, ",")
-    for i, target in ipairs(splitted_targets) do
-        local validated = babelfish.validate_language(target)
-        if not validated or validated == "auto" then
-            return false, S("@1 is not a valid language.", target)
-        end
-        splitted_targets[i] = validated
-    end
-
-    return splitted_targets, source
-end
-
-local function check_message(message)
-    local _, _, targetlangstr = message:find("%%([a-zA-Z-_:,]+)")
-    if targetlangstr then
-        local targetphrase = message:gsub("%%" .. string.gsub(targetlangstr, '%W', '%%%1'), '', 1)
-        local targets, source = parse_language_string(targetlangstr)
-        if not targets then
-            return false, source
-        end
-        return targetphrase, targets, source
-    end
-    return false
-end
-
 local format_base
 babelfish.register_on_engine_ready(function()
     format_base = "[" .. babelfish.get_engine_label() .. " %s -> %s]: %s"
 end)
 
-local dosend
-local function process(name, message, arg1)
-    local targetphrase, targetlangs, sourcelang = check_message(message)
-    if targetphrase then
-        for _, targetlang in ipairs(targetlangs) do
-            babelfish.translate(sourcelang, targetlang, targetphrase,
-                function(succeed, translated, detected_sourcelang)
-                    if not succeed then
-                        if core.get_player_by_name(name) then
-                            return core.chat_send_player(name, S("Could not translate message: @1", translated))
-                        end
-                        return
-                    end
+local parse_language_string = babelfish.parse_language_string
 
-                    return dosend(name, translated, detected_sourcelang or sourcelang, targetlang, arg1)
-                end)
-        end
-    else
-        sourcelang = "auto"
-        targetphrase = message
-        if targetlangs then
-            core.chat_send_player(name, targetlangs)
-        end
-        targetlangs = {}
+local dosend
+local function process(name, message, channel)
+    message = " " .. message .. " "
+    local _, _, language_string = string.find(message, "%s%%([a-zA-Z-_:,]+)%s")
+    if not language_string then return end
+    local targetphrase = message:gsub("%%" .. string.gsub(language_string, '%W', '%%%1'), '', 1):trim()
+
+    local targetlangs, source = parse_language_string(language_string)
+    if not targetlangs then
+        return core.chat_send_player(name, source)
+    end
+
+    for _, targetlang in ipairs(targetlangs) do
+        babelfish.translate(source, targetlang, targetphrase,
+            function(succeed, translated, detected_sourcelang)
+                if not succeed then
+                    if core.get_player_by_name(name) then
+                        return core.chat_send_player(name, S("Could not translate message: @1", translated))
+                    end
+                    return
+                end
+
+                return dosend(name, translated, detected_sourcelang or source, targetlang, channel)
+            end)
     end
 
     if babelfish.get_player_preferred_language then
@@ -86,17 +54,17 @@ local function process(name, message, arg1)
         end
 
         for lang, players in pairs(targets) do
-            babelfish.translate(sourcelang, lang, targetphrase, function(succeed, translated, detected)
+            babelfish.translate(source, lang, targetphrase, function(succeed, translated, detected)
                 if not succeed or detected == lang or targetphrase == translated then
                     return
                 end
 
                 for _, tname in ipairs(players) do
                     if core.get_player_by_name(tname) then
-                        local tmessage = string.format(format_base, detected or sourcelang, lang, translated)
-                        if arg1 then
+                        local tmessage = string.format(format_base, detected or source, lang, translated)
+                        if channel then
                             local data = {
-                                channel = arg1,
+                                channel = channel,
                                 name = name,
                                 message = tmessage
                             }
@@ -119,12 +87,12 @@ local function do_bb(name, param, sendfunc)
         return false
     end
 
-    local targets, sourcelang = parse_language_string(args[1])
-    if not targets then
+    local targetlangs, sourcelang = parse_language_string(args[1])
+    if not targetlangs then
         return false, sourcelang
     end
 
-    for _, targetlang in ipairs(targets) do
+    for _, targetlang in ipairs(targetlangs) do
         babelfish.translate(sourcelang, targetlang, args[2],
             function(succeed, translated, detected_sourcelang)
                 if not succeed then

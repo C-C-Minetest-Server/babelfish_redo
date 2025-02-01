@@ -159,6 +159,33 @@ function babelfish.get_engine_label()
     return babelfish_engine.engine_label
 end
 
+-- Helpers
+
+---Parse a language string
+---@param language_string string
+---@return boolean | string[] targets `false` on fail, `table` on success
+---@return string source Source language on success, error message on fail
+function babelfish.parse_language_string(language_string)
+    local splits = string.split(language_string, ":", true)
+    local targetstr, sourcestr = splits[1], splits[2]
+
+    local source = babelfish.validate_language(sourcestr)
+    if not source then
+        return false, S("@1 is not a valid language.", sourcestr)
+    end
+
+    local targets = string.split(targetstr, ",")
+    for i, target in ipairs(targets) do
+        local validated = babelfish.validate_language(target)
+        if not validated or validated == "auto" then
+            return false, S("@1 is not a valid language.", target)
+        end
+        targets[i] = validated
+    end
+
+    return targets, source
+end
+
 core.register_chatcommand("bbcodes", {
     description = S("List avaliable language codes"),
     func = function()

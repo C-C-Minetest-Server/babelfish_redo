@@ -30,6 +30,7 @@ Avaliable in `babelfish_chat` mod:
 * Use `/bb <language code>[:<source language>] <sentence>` to send a message in another language.
     * (Beerchat only) Use `/bb #<channel> (other arguments...)` to send to a channel.
 * (With `babelfish_preferred_langauge`) Use `/bbactive` to toggle active translation.
+    * If langauge detection failed on your message, you can add `%:<source language>` (note the colon) to your message.
 
 Avaliable in `babelfish_preferred_langauge` mod:
 

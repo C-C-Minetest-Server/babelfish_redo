@@ -29,14 +29,31 @@ core.register_on_leaveplayer(function(player)
     end
 end)
 
+local format_base
+babelfish.register_on_engine_ready(function()
+    format_base = "[" .. babelfish.get_engine_label() .. " %s -> %s]: %s"
+end)
+
 local get_channel
 local cmd_param
 local is_player_subscribed_to_channel
+local format_message
 
 if core.global_exists("beerchat") then
     main_channel = beerchat.main_channel_name
-    beerchat.register_callback("on_send_on_channel", function(name, msg)
-        record_message(name, msg.channel, msg.message)
+    do
+        local send_on_channel = beerchat.send_on_channel
+        function beerchat.send_on_channel(msg, ...) -- luacheck: ignore
+            if type(msg) ~= "table" then
+                local arg = {...}
+                msg = {name=msg, channel=arg[1], message=arg[2]}
+            end
+            msg._babelfish_raw_message = msg.message
+            return send_on_channel(msg)
+        end
+    end
+    beerchat.register_callback("before_send_on_channel", function(name, msg)
+        record_message(name, msg.channel, msg._babelfish_raw_message or msg.message)
     end)
     cmd_param = S("<player name> [<channel name>]")
     get_channel = function(name)
@@ -48,6 +65,20 @@ if core.global_exists("beerchat") then
         end
     end
     is_player_subscribed_to_channel = beerchat.is_player_subscribed_to_channel
+    format_message = function(name, source, lang, translated, channel)
+        local tmessage = string.format(format_base, source, lang, translated)
+        do
+            local data = {
+                channel = channel,
+                name = name,
+                message = tmessage
+            }
+            beerchat.execute_callbacks("before_send", tname, tmessage, data)
+            tmessage = data.message or tmessage
+        end
+        return tmessage
+    end
+
 else
     core.register_on_chat_message(function(name, message)
         record_message(name, main_channel, message)
@@ -55,6 +86,9 @@ else
     cmd_param = S("<player name>")
     get_channel = function() return main_channel end
     is_player_subscribed_to_channel = function(_, channel) return channel == main_channel end
+    format_message = function(name, source, lang, translated)
+        return core.format_chat_message(name, string.format(format_base, source, lang, translated))
+    end
 end
 
 core.register_chatcommand("babel", {
@@ -90,7 +124,20 @@ core.register_chatcommand("babel", {
                 target_player, channel == main_channel and S("the main channel") or ("#" .. channel))
         end
 
-        babelfish.translate("auto", target_lang, chat_history[channel][target_player], function(succeeded, translated)
+        local message = chat_history[channel][target_player]
+        local source_lang = "auto"
+        message = " " .. message .. " "
+        local _, _, language_string = string.find(message, "%s%%([a-zA-Z-_:,]+)%s")
+        if language_string then
+            message = message:gsub("%%" .. string.gsub(language_string, '%W', '%%%1'), '', 1)
+            local status, source = babelfish.parse_language_string(language_string)
+            if status then
+                source_lang = source
+            end
+        end
+        message = string.trim(message)
+
+        babelfish.translate(source_lang, target_lang, message, function(succeeded, translated, detected)
             if not core.get_player_by_name(name) then return end
 
             if not succeeded then
@@ -98,7 +145,7 @@ core.register_chatcommand("babel", {
             end
 
             return core.chat_send_player(name,
-                "[" .. babelfish.get_engine_label() .. " #" .. channel .. " " .. target_player .. "]: " .. translated)
+                format_message(target_player, detected or source_lang, target_lang, translated, channel))
         end)
         return true
     end,
