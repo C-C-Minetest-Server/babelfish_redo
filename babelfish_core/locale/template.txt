@@ -3,5 +3,6 @@
 ##[ init.lua ]##
 Translations are powered by @1=
 Detect automatically=
+@1 is not a valid language.=
 List avaliable language codes=
 (Alias: @1)=
