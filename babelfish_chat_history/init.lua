@@ -65,7 +65,7 @@ if core.global_exists("beerchat") then
         end
     end
     is_player_subscribed_to_channel = beerchat.is_player_subscribed_to_channel
-    format_message = function(name, source, lang, translated, channel)
+    format_message = function(name, tname, source, lang, translated, channel)
         local tmessage = string.format(format_base, source, lang, translated)
         do
             local data = {
@@ -86,7 +86,7 @@ else
     cmd_param = S("<player name>")
     get_channel = function() return main_channel end
     is_player_subscribed_to_channel = function(_, channel) return channel == main_channel end
-    format_message = function(name, source, lang, translated)
+    format_message = function(name, _, source, lang, translated)
         return core.format_chat_message(name, string.format(format_base, source, lang, translated))
     end
 end
@@ -145,7 +145,7 @@ core.register_chatcommand("babel", {
             end
 
             return core.chat_send_player(name,
-                format_message(target_player, detected or source_lang, target_lang, translated, channel))
+                format_message(target_player, name, detected or source_lang, target_lang, translated, channel))
         end)
         return true
     end,
