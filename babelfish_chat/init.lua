@@ -57,7 +57,8 @@ local function process(name, message, channel)
 
         for lang, players in pairs(targets) do
             babelfish.translate(source, lang, targetphrase, function(succeed, translated, detected)
-                if not succeed or detected == lang or targetphrase == translated then
+                if not succeed or detected == lang
+                    or string.lower(string.trim(targetphrase)) == string.lower(string.trim(translated)) then
                     return
                 end
 
